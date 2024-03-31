@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+	<Properties>
+		<Property name="LOG_PATTERN">
+		     %d{[yyyy-MM-dd] [HH:mm:ss]} [%3p] - [%15.15t] %-40.40c{1.} : %m%n
+		</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="ConsoleAppender" target="SYSTEM_OUT"
+			follow="true">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+
+		<!-- Rolling File Appender -->
+		<RollingFile name="FileAppender"
+			fileName="/apps/logs/Fastrans-logs.log"
+			filePattern="/apps/logs/Fastrans-logs-%d{yyyy-MM-dd}-%i.log"> <!--new log file will be created in this format -->
+			<PatternLayout>
+				<Pattern>${LOG_PATTERN}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />  <!--new log file will be created everyday -->
+				<SizeBasedTriggeringPolicy size="1MB" /> <!-- new log file will be created if size>1mb -->
+			</Policies>
+			<DefaultRolloverStrategy max="10" /> <!-- max 10 files can be created -->
+		</RollingFile>
+
+	</Appenders>
+
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="FileAppender" />
+		</Root>
+	</Loggers>
+</Configuration>
